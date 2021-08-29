@@ -17,8 +17,8 @@ articlespath = 'data/football'
 def task1():
     #Complete task 1 here
     teams_codes = []
-    with open(datafilepath, 'r') as f:
-        data = json.load(datafilepath)
+    with open(datafilepath) as f:
+        data = json.load(f)
         for i in data['teams_codes']:
             teams_codes.append(i) 
     return sorted(teams_codes)
