@@ -23,7 +23,7 @@ def task1():
         for i in data['teams_codes']:
             teams_codes.append(i) 
     teams_codes.sort()
-    return teams_codes
+    return sorted(data['teams_codes'])
     
 def task2():
     #Complete task 2 here
