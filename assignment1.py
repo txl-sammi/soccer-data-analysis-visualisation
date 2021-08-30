@@ -55,15 +55,14 @@ def task3():
             filename = open(articlespath + '/' + txtfile, 'r')
             text = filename.read()
             filename.close()
-            scores = re.findall(r'\d{1,2}-\d{1,2}', text)
+            scores = re.findall(r'(?<=\D)\d{1,2}-\d{1,2}(?=\D)', text)
             maxSum = 0
             if scores == []:
                 maxSum = 0
             else:
                 for score in scores:
                     sumOfScores = 0
-                    listOfString = list(score)
-                    listOfString.remove('-')
+                    listOfString = score.split('-')
                     for number in listOfString:
                         sumOfScores += int(number)
                     if sumOfScores > maxSum:
