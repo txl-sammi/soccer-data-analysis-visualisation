@@ -9,6 +9,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import json
 import csv
+import re
 
 # You should use these two variable to refer the location of the JSON data file and the folder containing the news articles.
 # Under no circumstances should you hardcode a path to the folder on your computer (e.g. C:\Chris\Assignment\data\data.json) as this path will not exist on any machine but yours.
@@ -25,6 +26,7 @@ def task2():
     #Complete task 2 here
     with open('task2.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
+        # write header row
         writer.writerow(['team_code', 'goals_scored_by_team', 'goals_scored_against_team'])
         with open(datafilepath) as f:
             data = json.load(f)
@@ -33,6 +35,7 @@ def task2():
             for i in sorted_team_codes:
                 club_index = team_codes.index(i)
                 club = data['clubs'][club_index]
+                # header info
                 team_code = club["club_code"]
                 goals_scored_by_team = club["goals_scored"]
                 goals_scored_against_team = club["goals_conceded"]
@@ -41,7 +44,16 @@ def task2():
       
 def task3():
     #Complete task 3 here
-    return
+    
+    with open('task3.csv', 'w') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['filename', 'total_goals'])
+        with open(articlespath) as f:
+            for textfile in f:
+                sumOfScores = 0
+                scores = re.findall(r'[0-99]{1,2}-[0-99]{1,2}', textfile)
+
+    return scores
 
 def task4():
     #Complete task 4 here
