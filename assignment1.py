@@ -49,7 +49,9 @@ def task3():
     with open('task3.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['filename', 'total_goals'])
-        for txtfile in os.listdir(articlespath):
+        listOfFiles = os.listdir(articlespath)
+        listOfFiles.sort()
+        for txtfile in listOfFiles:
             filename = open(articlespath + '/' + txtfile, 'r')
             text = filename.read()
             filename.close()
