@@ -50,10 +50,24 @@ def task3():
         writer = csv.writer(csvfile)
         writer.writerow(['filename', 'total_goals'])
         for txtfile in os.listdir(articlespath):
-            sumOfScores = 0
-            scores = re.findall(r'[0-99]{1,2}-[0-99]{1,2}', txtfile)
-
-    return scores
+            filename = open(articlespath + '/' + txtfile, 'r')
+            text = filename.read()
+            filename.close()
+            scores = re.findall(r'\d{1,2}-\d{1,2}', text)
+            maxSum = 0
+            if scores == []:
+                maxSum = 0
+            else:
+                for score in scores:
+                    sumOfScores = 0
+                    listOfString = list(score)
+                    listOfString.remove('-')
+                    for number in listOfString:
+                        sumOfScores += int(number)
+                    if sumOfScores > maxSum:
+                        maxSum = sumOfScores
+            writer.writerow([txtfile, maxSum])
+    return
 
 def task4():
     #Complete task 4 here
