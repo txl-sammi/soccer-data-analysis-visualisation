@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 import json
+import csv
 
 # You should use these two variable to refer the location of the JSON data file and the folder containing the news articles.
 # Under no circumstances should you hardcode a path to the folder on your computer (e.g. C:\Chris\Assignment\data\data.json) as this path will not exist on any machine but yours.
@@ -21,10 +22,22 @@ def task1():
         data = json.load(f)
         for i in data['teams_codes']:
             teams_codes.append(i) 
-    return sorted(teams_codes)
+    teams_codes.sort()
+    return teams_codes
     
 def task2():
     #Complete task 2 here
+    with open('task2', 'w') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['team_code', 'goals_scored_by_team', 'goals_scored_against_team'])
+        with open(datafilepath) as f:
+            data = json.load(f)
+            for i in data['clubs']:
+                team_code = data['teams_codes'][i[id]]
+                goals_scored_by_team = i["goals_scored"]
+                goals_scored_against_team = i["goals_conceded"]
+                writer.writerow([team_code, goals_scored_by_team, goals_scored_against_team])
+
     return
       
 def task3():
