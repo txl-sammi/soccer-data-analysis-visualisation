@@ -28,11 +28,14 @@ def task2():
         writer.writerow(['team_code', 'goals_scored_by_team', 'goals_scored_against_team'])
         with open(datafilepath) as f:
             data = json.load(f)
-            team_codes = sorted(data['teams_codes'])
-            for i in data['clubs']:
-                team_code = data['teams_codes'][i[id]]
-                goals_scored_by_team = i["goals_scored"]
-                goals_scored_against_team = i["goals_conceded"]
+            team_codes = data['teams_codes']
+            sorted_team_codes = sorted(data['teams_codes'])
+            for i in sorted_team_codes:
+                club_index = team_codes.index(i)
+                club = data['clubs'][club_index]
+                team_code = club["club_code"]
+                goals_scored_by_team = club["goals_scored"]
+                goals_scored_against_team = club["goals_conceded"]
                 writer.writerow([team_code, goals_scored_by_team, goals_scored_against_team])
     return 
       
