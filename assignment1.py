@@ -17,28 +17,24 @@ articlespath = 'data/football'
 
 def task1():
     #Complete task 1 here
-    teams_codes = []
     with open(datafilepath) as f:
         data = json.load(f)
-        for i in data['teams_codes']:
-            teams_codes.append(i) 
-    teams_codes.sort()
     return sorted(data['teams_codes'])
     
 def task2():
     #Complete task 2 here
-    with open('task2', 'w') as csvfile:
+    with open('task2.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['team_code', 'goals_scored_by_team', 'goals_scored_against_team'])
         with open(datafilepath) as f:
             data = json.load(f)
+            team_codes = sorted(data['teams_codes'])
             for i in data['clubs']:
                 team_code = data['teams_codes'][i[id]]
                 goals_scored_by_team = i["goals_scored"]
                 goals_scored_against_team = i["goals_conceded"]
                 writer.writerow([team_code, goals_scored_by_team, goals_scored_against_team])
-
-    return
+    return 
       
 def task3():
     #Complete task 3 here
