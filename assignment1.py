@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from numpy import arange
+import seaborn as sns
 import json
 import csv
 import re
@@ -96,7 +97,6 @@ def task5():
             clubs = data["clubs"]
             for club in clubs:
                 counter = 0
-                names = []
                 for filename in listOfFiles:
                     if filename.endswith(".txt"):
                         txtfile = open(articlespath + '/' + filename, 'r')
@@ -121,6 +121,38 @@ def task5():
     
 def task6():
     #Complete task 6 here
+    with open('task5.csv', 'r') as csvfile:
+        mentions = pd.read_csv('task5.csv', encoding = 'ISO-8859-1')
+        numberOfMentions = mentions['number_of_mentions']
+        clubName = mentions['club_name']
+        reader = csv.DictReader(csvfile)
+        with open('task6.csv', 'w') as heatcsv:
+            writer = csv.writer(heatcsv)
+            writer.writerow(clubName)
+            i=0
+            for row in reader:
+                club1_name = row['club_name']
+                number_of_mentions1 = row['number_of_mentions']
+                data = []
+                while i<len(numberOfMentions):
+                    number_of_mentions2 = numberOfMentions[i]
+                    club2_name = clubName[i]
+                    listOfFiles = os.listdir(articlespath)
+                    number_of_mentions_both = 0
+                    for filename in listOfFiles:
+                        txtfile = open(articlespath + '/' + filename, 'r')
+                        text = txtfile.read()
+                        txtfile.close()
+                        mentionsClub1 = re.findall(club1_name, text)
+                        mentionsClub2 = re.findall(club2_name, text)
+                        if mentionsClub2 != [] and mentionsClub1 != []:
+                            number_of_mentions_both += 1
+                    if number_of_mentions1 == 0 and number_of_mentions2 == 0:
+                        similarityScore = 0
+                    else:
+                        similarityScore = (2*number_of_mentions_both) / (int(number_of_mentions1) + int(number_of_mentions2))
+                    data.append(similarityScore)
+                writer.writerow(data)
     return
     
 def task7():
