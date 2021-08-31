@@ -7,6 +7,7 @@
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+from numpy import arange
 import json
 import csv
 import re
@@ -19,7 +20,7 @@ articlespath = 'data/football'
 
 def task1():
     #Complete task 1 here
-    with open(datafilepath) as f:
+    with open(datafilepath, encoding='utf-8') as f:
         data = json.load(f)
     return sorted(data['teams_codes'])
     
@@ -29,7 +30,7 @@ def task2():
         writer = csv.writer(csvfile)
         # write header row
         writer.writerow(['team_code', 'goals_scored_by_team', 'goals_scored_against_team'])
-        with open(datafilepath) as f:
+        with open(datafilepath, encoding='utf-8') as f:
             data = json.load(f)
             team_codes = data['teams_codes']
             sorted_team_codes = sorted(data['teams_codes'])
@@ -68,11 +69,12 @@ def task3():
                         if sumOfScores > maxSum:
                             maxSum = sumOfScores
             writer.writerow([txtfile, maxSum])
+        
     return
 
 def task4():
     #Complete task 4 here
-    with open('task3.csv', 'r') as task3file:
+    with open('task3.csv', 'r'):
         total_goals = pd.read_csv('task3.csv', encoding = 'ISO-8859-1')
         goals = total_goals['total_goals']
         files = total_goals['filename']
@@ -85,10 +87,36 @@ def task4():
     
 def task5():
     #Complete task 5 here
-    listOfClubNames = []
-    with open(datafilepath) as f:
-        data = json.load(f)
-        
+    with open('task5.csv', 'w') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['club_name', 'number_of_mentions'])
+        listOfFiles = os.listdir(articlespath)
+        with open(datafilepath, encoding='utf-8') as f:
+            data = json.load(f)
+            clubs = data["clubs"]
+            for club in clubs:
+                counter = 0
+                names = []
+                for filename in listOfFiles:
+                    if filename.endswith(".txt"):
+                        txtfile = open(articlespath + '/' + filename, 'r')
+                        text = txtfile.read()
+                        txtfile.close()
+                        mentions = re.findall(club["name"], text)
+                        if mentions != []:
+                            counter += 1
+                writer.writerow([club["name"], counter])
+    with open('task5.csv', 'r'):
+        taskcsv = pd.read_csv('task5.csv', encoding = 'ISO-8859-1')
+        mentions = taskcsv['number_of_mentions']
+        clubs = taskcsv['club_name']
+        plt.bar(arange(len(mentions)),mentions)
+        plt.xticks( arange(len(clubs)),clubs, rotation=70, fontsize=9)
+        plt.ylabel('Number of mentions')
+        plt.xlabel('Club names')
+        plt.title('Number of articles that mentioned the club name')
+        plt.tight_layout()
+        plt.savefig('task5.png')
     return
     
 def task6():
