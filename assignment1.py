@@ -45,37 +45,50 @@ def task2():
       
 def task3():
     #Complete task 3 here
-    
     with open('task3.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['filename', 'total_goals'])
         listOfFiles = os.listdir(articlespath)
         listOfFiles.sort()
         for txtfile in listOfFiles:
-            filename = open(articlespath + '/' + txtfile, 'r')
-            text = filename.read()
-            filename.close()
-            scores = re.findall(r'(?<=\D)\d{1,2}-\d{1,2}(?=\D)', text)
-            maxSum = 0
-            if scores == []:
+            if txtfile.endswith(".txt"):
+                filename = open(articlespath + '/' + txtfile, 'r')
+                text = filename.read()
+                filename.close()
+                scores = re.findall(r'(?<=\D)\d{1,2}-\d{1,2}(?=\D)', text)
                 maxSum = 0
-            else:
-                for score in scores:
-                    sumOfScores = 0
-                    listOfString = score.split('-')
-                    for number in listOfString:
-                        sumOfScores += int(number)
-                    if sumOfScores > maxSum:
-                        maxSum = sumOfScores
+                if scores == []:
+                    maxSum = 0
+                else:
+                    for score in scores:
+                        sumOfScores = 0
+                        listOfString = score.split('-')
+                        for number in listOfString:
+                            sumOfScores += int(number)
+                        if sumOfScores > maxSum:
+                            maxSum = sumOfScores
             writer.writerow([txtfile, maxSum])
     return
 
 def task4():
     #Complete task 4 here
+    with open('task3.csv', 'r') as task3file:
+        total_goals = pd.read_csv('task3.csv', encoding = 'ISO-8859-1')
+        goals = total_goals['total_goals']
+        files = total_goals['filename']
+        goals.index = files
+        plt.boxplot(goals)
+        plt.title("Distribution of highest total number of goals found in news articles")
+        plt.ylabel("Number of goals")
+        plt.savefig("task4.png")
     return
     
 def task5():
     #Complete task 5 here
+    listOfClubNames = []
+    with open(datafilepath) as f:
+        data = json.load(f)
+        
     return
     
 def task6():
