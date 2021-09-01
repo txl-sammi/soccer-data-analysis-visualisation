@@ -177,21 +177,18 @@ def task7():
         mentions = pd.read_csv(task5, encoding = 'ISO-8859-1')
         with open('task2.csv', 'r') as task2:
             goals_scored = pd.read_csv(task2, encoding = 'ISO-8859-1')
-            clubname = mentions['club_name']
             number_of_mentions = mentions['number_of_mentions']
             goals_scored_by_team = goals_scored['goals_scored_by_team']
-    with open('task7.csv', 'r') as mentions_goals:
-        data = pd.read_csv(mentions_goals, dtype=None)
-        xaxis = goals_scored_by_team
-        yaxis = number_of_mentions        
-        plt.scatter(xaxis, yaxis)
-        plt.ylabel("Number of mentions", labelpad=15)
-        plt.xlabel("Goals scored by team", labelpad=15)
-        plt.title('Goals scored by team VS Number of mentions', y=1.03)
-        plt.grid(True)
-        plt.tight_layout
-        plt.savefig('task7.png', bbox_inches='tight')
-        plt.clf()
+    xaxis = goals_scored_by_team
+    yaxis = number_of_mentions        
+    plt.scatter(xaxis, yaxis)
+    plt.ylabel("Number of mentions", labelpad=15)
+    plt.xlabel("Goals scored by team", labelpad=15)
+    plt.title('Goals scored by team VS Number of mentions', y=1.03)
+    plt.grid(True)
+    plt.tight_layout
+    plt.savefig('task7.png', bbox_inches='tight')
+    plt.clf()
     return
     
 def task8(filename):
@@ -211,5 +208,5 @@ def task8(filename):
     
 def task9():
     #Complete task 9 here
-    
+
     return
