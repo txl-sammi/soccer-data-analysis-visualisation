@@ -8,6 +8,9 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from numpy import arange
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 import seaborn as sns
 import json
 import csv
@@ -84,6 +87,7 @@ def task4():
         plt.title("Distribution of highest total number of goals found in news articles")
         plt.ylabel("Number of goals")
         plt.savefig("task4.png")
+        plt.clf()
     return
     
 def task5():
@@ -117,6 +121,7 @@ def task5():
         plt.title('Number of articles that mentioned the club name')
         plt.tight_layout()
         plt.savefig('task5.png')
+        plt.clf()
     return
     
 def task6():
@@ -163,16 +168,48 @@ def task6():
         plt.xlabel("Clubs") 
         plt.tight_layout
         plt.savefig('task6.png', bbox_inches='tight')
+        plt.clf()
     return
     
 def task7():
     #Complete task 7 here
+    with open('task5.csv', 'r') as task5:
+        mentions = pd.read_csv(task5, encoding = 'ISO-8859-1')
+        with open('task2.csv', 'r') as task2:
+            goals_scored = pd.read_csv(task2, encoding = 'ISO-8859-1')
+            clubname = mentions['club_name']
+            number_of_mentions = mentions['number_of_mentions']
+            goals_scored_by_team = goals_scored['goals_scored_by_team']
+    with open('task7.csv', 'r') as mentions_goals:
+        data = pd.read_csv(mentions_goals, dtype=None)
+        xaxis = goals_scored_by_team
+        yaxis = number_of_mentions        
+        plt.scatter(xaxis, yaxis)
+        plt.ylabel("Number of mentions", labelpad=15)
+        plt.xlabel("Goals scored by team", labelpad=15)
+        plt.title('Goals scored by team VS Number of mentions', y=1.03)
+        plt.grid(True)
+        plt.tight_layout
+        plt.savefig('task7.png', bbox_inches='tight')
+        plt.clf()
     return
     
 def task8(filename):
     #Complete task 8 here
-    return
+    file = open(filename, 'r')
+    text = file.read()
+    file.close()
+
+    text = re.sub("[^a-zA-Z \n\t]+"," ", text)
+    text = re.sub("[\n\t]+"," ", text)
+    text = text.lower()
+    text = word_tokenize(text)
+    stopWords = set(stopwords.words('english'))
+    text = [w for w in text if not w in stopWords]
+    text = [w for w in text if not len(w)==1]
+    return text
     
 def task9():
     #Complete task 9 here
+    
     return
