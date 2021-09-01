@@ -122,37 +122,47 @@ def task5():
 def task6():
     #Complete task 6 here
     with open('task5.csv', 'r') as csvfile:
-        mentions = pd.read_csv('task5.csv', encoding = 'ISO-8859-1')
+        mentions = pd.read_csv(csvfile, encoding = 'ISO-8859-1')
         numberOfMentions = mentions['number_of_mentions']
         clubName = mentions['club_name']
-        reader = csv.DictReader(csvfile)
         with open('task6.csv', 'w') as heatcsv:
             writer = csv.writer(heatcsv)
             writer.writerow(clubName)
-            i=0
-            for row in reader:
-                club1_name = row['club_name']
-                number_of_mentions1 = row['number_of_mentions']
+            j=0
+            while j<len(numberOfMentions):
+                club1_name = clubName[j]
+                number_of_mentions1 = numberOfMentions[j]
                 data = []
+                i=0
                 while i<len(numberOfMentions):
                     number_of_mentions2 = numberOfMentions[i]
                     club2_name = clubName[i]
                     listOfFiles = os.listdir(articlespath)
                     number_of_mentions_both = 0
+                    i += 1
                     for filename in listOfFiles:
                         txtfile = open(articlespath + '/' + filename, 'r')
                         text = txtfile.read()
                         txtfile.close()
-                        mentionsClub1 = re.findall(club1_name, text)
-                        mentionsClub2 = re.findall(club2_name, text)
-                        if mentionsClub2 != [] and mentionsClub1 != []:
+                        mentionsClub1 = re.search(club1_name, text)
+                        mentionsClub2 = re.search(club2_name, text)
+                        if mentionsClub2 != None and mentionsClub1 != None:
                             number_of_mentions_both += 1
-                    if number_of_mentions1 == 0 and number_of_mentions2 == 0:
+                    if int(number_of_mentions1) + int(number_of_mentions2) == 0:
                         similarityScore = 0
                     else:
                         similarityScore = (2*number_of_mentions_both) / (int(number_of_mentions1) + int(number_of_mentions2))
                     data.append(similarityScore)
+                j += 1
                 writer.writerow(data)
+    with open('task6.csv', 'r') as fileheat:
+        sim = pd.read_csv(fileheat, dtype=None)
+        heatmap = sns.heatmap(sim.corr(), cmap='flare', vmin=0, vmax=1, cbar_kws={'label': 'Similarity score colour bar'})
+        heatmap.set_title('Soccer Club Article Mention Similarity Score Heatmap', fontdict={'fontsize':14}, pad=16)
+        plt.ylabel("Clubs") 
+        plt.xlabel("Clubs") 
+        plt.tight_layout
+        plt.savefig('task6.png', bbox_inches='tight')
     return
     
 def task7():
