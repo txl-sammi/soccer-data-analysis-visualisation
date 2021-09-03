@@ -201,7 +201,7 @@ def task8(filename):
     text = re.sub("[^a-zA-Z \n\t]+"," ", text)
     text = re.sub("[\n\t]+"," ", text)
     text = text.lower()
-    text = text.split(" ")
+    text = word_tokenize(text)
     stopWords = set(stopwords.words('english'))
     text = [w for w in text if not w in stopWords]
     text = [w for w in text if not len(w)==1]
@@ -222,7 +222,7 @@ def task9():
                 filename2 = listOfFiles[j]
                 task8_1 = task8(articlespath + '/' + filename)
                 task8_2 = task8(articlespath + '/' + filename2)
-
+                
                 x = [task8_1, task8_2]
                 vectorizer = CountVectorizer(analyzer=lambda x: x)
                 transformer = TfidfTransformer()
