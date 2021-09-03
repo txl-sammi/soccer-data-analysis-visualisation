@@ -5,10 +5,10 @@
 # Some starting imports are provided, these will be accessible by all functions.
 # You may need to import additional items
 import numpy as np
+import numpy.linalg as LA
 import pandas as pd
 from matplotlib import pyplot as plt
 from numpy import arange
-import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import seaborn as sns
@@ -16,6 +16,7 @@ import json
 import csv
 import re
 import os
+from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
 
 # You should use these two variable to refer the location of the JSON data file and the folder containing the news articles.
 # Under no circumstances should you hardcode a path to the folder on your computer (e.g. C:\Chris\Assignment\data\data.json) as this path will not exist on any machine but yours.
@@ -115,7 +116,7 @@ def task5():
         mentions = taskcsv['number_of_mentions']
         clubs = taskcsv['club_name']
         plt.bar(arange(len(mentions)),mentions)
-        plt.xticks( arange(len(clubs)),clubs, rotation=70, fontsize=9)
+        plt.xticks(arange(len(clubs)),clubs, rotation=70, fontsize=9)
         plt.ylabel('Number of mentions')
         plt.xlabel('Club names')
         plt.title('Number of articles that mentioned the club name')
@@ -208,5 +209,32 @@ def task8(filename):
     
 def task9():
     #Complete task 9 here
+    with open('alltask9.csv', 'w') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(["article1", "article2", "similarity"])
+        listOfFiles = os.listdir(articlespath)
+        cx = lambda a, b : round(np.inner(a, b)/(LA.norm(a)*LA.norm(b)), 16)
+        i = 0
+        while i<len(listOfFiles) - 1:
+            filename = listOfFiles[i]
+            j = i + 1
+            while j<len(listOfFiles) - 1:
+                filename2 = listOfFiles[j]
+                task8_1 = task8(articlespath + '/' + filename)
+                task8_2 = task8(articlespath + '/' + filename2)
+                
+                x = [task8_1, task8_2]
+                vectorizer = CountVectorizer(analyzer=lambda x: x)
+                transformer = TfidfTransformer()
+                term_counts = vectorizer.fit_transform(x).toarray()
+                tfidf = transformer.fit_transform(term_counts).toarray()
 
+                cosine = cx(tfidf[0], tfidf[1])
+                writer.writerow([filename, filename2, cosine])
+                j += 1
+            i += 1
+    with open('alltask9.csv', 'r') as allfile:
+        df = pd.read_csv(allfile)
+        sorted_df = df.sort_values(by=["similarity"], ascending=False)[:10]
+        sorted_df.to_csv('task9.csv', index=False)
     return
