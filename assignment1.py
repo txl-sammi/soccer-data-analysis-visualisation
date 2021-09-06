@@ -237,9 +237,4 @@ def task9():
         df = pd.read_csv(allfile)
         sorted_df = df.sort_values(by=["similarity"], ascending=False)[:10]
         sorted_df.to_csv('task9.csv', index=False)
-        
-
-
-
-        
     return
