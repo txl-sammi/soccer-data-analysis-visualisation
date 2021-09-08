@@ -163,7 +163,7 @@ def task6():
                 writer.writerow(data)
     with open('task6.csv', 'r') as fileheat:
         sim = pd.read_csv(fileheat, dtype=None)
-        heatmap = sns.heatmap(sim.corr(), cmap='flare', vmin=0, vmax=1, cbar_kws={'label': 'Similarity score colour bar'})
+        heatmap = sns.heatmap(sim.corr(), cmap='flare', vmin=0, vmax=1, cbar_kws={'label': 'Similarity score colour bar'}, xticklabels=True, yticklabels=True)
         heatmap.set_title('Soccer Club Article Mention Similarity Score Heatmap', fontdict={'fontsize':14}, pad=16)
         plt.ylabel("Clubs") 
         plt.xlabel("Clubs") 
