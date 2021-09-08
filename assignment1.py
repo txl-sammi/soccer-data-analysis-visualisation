@@ -184,8 +184,8 @@ def task7():
     yaxis = number_of_mentions        
     plt.scatter(xaxis, yaxis)
     plt.ylabel("Number of mentions", labelpad=15)
-    plt.xlabel("Goals scored by team", labelpad=15)
-    plt.title('Goals scored by team VS Number of mentions', y=1.03)
+    plt.xlabel("Total goals scored by team", labelpad=15)
+    plt.title('Total goals scored by team VS Number of mentions', y=1.03)
     plt.grid(True)
     plt.tight_layout
     plt.savefig('task7.png', bbox_inches='tight')
