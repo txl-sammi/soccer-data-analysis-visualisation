@@ -1,4 +1,4 @@
-# comp20008-2021sm2a1
+# Soccer Data Analysis and Visualisation
 Ting Xin (Sammi) Li 1271851
 
 Project for data analysis and visualisation of match results and news articles relating to soccer matches in the English Premier League
