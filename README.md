@@ -1,5 +1,4 @@
-# comp20008-2021sm2a1
-Ting Xin (Sammi) Li 1271851
+# Soccer Data Analysis and Visualisation
 
 Project for data analysis and visualisation of match results and news articles relating to soccer matches in the English Premier League
 - using numpy, pandas, json, csv, re and os libraries to read and extract data
